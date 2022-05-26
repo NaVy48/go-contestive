@@ -1,0 +1,33 @@
+{
+
+	"address": "localhost:4000",
+	"baseUrl": "/",
+	"title": "Contestive",
+
+	"frontEndProxy": "http://localhost:3000",
+	"frontEndDir": "./web/front-end/build",
+
+	"jwt": {
+		"secret": "523742a1baf48cad0449017aae77bddfc6f92dc2faff0ba18f2846373dae0b42"
+	},
+
+	"database": {
+		"postgresql": {
+			"address": "localhost",
+			"username": "contestive",
+			"password": "test",
+			"database": "contestive3"
+		}
+	},
+
+	"judge": {
+		"address": ":4545",
+		"judgeCredentials": {
+			"1": "test1secret",
+			"2": "test2secret",
+			"3": "test3secret",
+			"4": "test4secret",
+			"5": "test5secret"
+		}
+	}
+}
