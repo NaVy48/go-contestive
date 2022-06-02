@@ -1,0 +1,1166 @@
+@startuml
+namespace api {
+namespace apierror {
+namespace error_go {
+class HttpError {
+ Message string
+ StatusCode int
+ InnerError error
+}
+}
+}
+}
+namespace api {
+namespace payload {
+namespace response_test_go {
+class dto {
+ Payload string 
+}
+}
+}
+ }
+namespace api {
+namespace payload {
+namespace response_test_go {
+class dto {
+ Payload string 
+ Cycle *dto 
+}
+}
+}
+ }
+namespace api {
+namespace payload {
+namespace response_test_go {
+class httpStatusPayload {
+ Payload string 
+ status int
+}
+}
+}
+}
+namespace api {
+namespace payload {
+namespace parse_query_go {
+class sortParam {
+ Field field
+ Asc bool
+}
+}
+}
+}
+namespace api {
+namespace payload {
+namespace parse_query_go {
+class rangeParam {
+ From int
+ To int
+}
+}
+}
+}
+namespace api {
+namespace payload {
+namespace parse_query_go {
+class filterParam {
+ Field field
+ FilterValues filterValues
+}
+}
+}
+}
+namespace api {
+namespace payload {
+namespace handler_go {
+class jsonParseResponser {
+ log *log.Logger
+}
+}
+}
+}
+namespace api {
+namespace handler {
+namespace auth_handler_go {
+class authHandler {
+ ParseResponser
+ as AuthService
+}
+}
+}
+}
+namespace api {
+namespace handler {
+namespace auth_handler_go {
+class Req {
+ Username string 
+ Password string 
+}
+}
+}
+ }
+namespace api {
+namespace handler {
+namespace auth_handler_go {
+class Res {
+ Token string 
+}
+}
+}
+ }
+namespace api {
+namespace handler {
+namespace user_handler_go {
+class userHandler {
+ ParseResponser
+ us UserService
+ router *chi.Mux
+}
+}
+}
+}
+namespace api {
+namespace handler {
+namespace user_handler_go {
+class userRequest {
+ Username string 
+ FirstName string 
+ LastName string 
+ Password string 
+ Admin bool 
+}
+}
+}
+}
+namespace api {
+namespace handler {
+namespace user_handler_go {
+class userResponse {
+ ID int64 
+ Username string 
+ FirstName string 
+ LastName string 
+ CreatedAt time.Time 
+ UpdatedAt time.Time 
+ Admin bool 
+}
+}
+}
+}
+namespace api {
+namespace handler {
+namespace contest_handler_go {
+class constestHandler {
+ ParseResponser
+ us ContestService
+ router *chi.Mux
+}
+}
+}
+}
+namespace api {
+namespace handler {
+namespace contest_handler_go {
+class constestRequest {
+ Title string 
+ StartTime time.Time 
+ EndTime time.Time 
+ Problems []int64 
+ Users []int64 
+}
+}
+}
+}
+namespace api {
+namespace handler {
+namespace contest_handler_go {
+class constestResponse {
+ ID int64 
+ CreatedAt time.Time 
+ UpdatedAt time.Time 
+ ProblemID int64 
+ AuthorID int64 
+ ContestName string 
+ StartTime time.Time 
+ EndTime time.Time 
+ Problems []int64 
+ Users []int64 
+}
+}
+}
+}
+namespace api {
+namespace handler {
+namespace submission_handler_go {
+class submissionHandler {
+ ParseResponser
+ us SubmissionService
+ router *chi.Mux
+}
+}
+}
+}
+namespace api {
+namespace handler {
+namespace submission_handler_go {
+class submissionRequest {
+ ProblemID int64 
+ ContestID string 
+ Language string 
+ SourceCode string 
+}
+}
+}
+}
+namespace api {
+namespace handler {
+namespace submission_handler_go {
+class submissionResponse {
+ ID int64 
+ CreatedAt time.Time 
+ UpdatedAt time.Time 
+ ProblemID int64 
+ ProblemRevID int64 
+ ContestID int64 
+ AuthorID int64 
+ Language string 
+ SourceCode string 
+ Status string 
+ Result string 
+ Details string 
+}
+}
+}
+}
+namespace api {
+namespace handler {
+namespace problem_handler_go {
+class problemHandler {
+ ParseResponser
+ ps ProblemService
+ router *chi.Mux
+}
+}
+}
+}
+namespace api {
+namespace handler {
+namespace problem_handler_go {
+class ProblemResponse {
+ ID int64 
+ CreatedAt time.Time 
+ UpdatedAt time.Time 
+ AuthorID int64 
+ ExternalURL string 
+ Name string 
+ ProblemID int64 
+ Revision int 
+ Title string 
+ MemoryLimit int 
+ TimeLimit int 
+}
+}
+}
+}
+namespace api {
+namespace handler {
+namespace problem_handler_go {
+class problemDetailResponse {
+ ProblemResponse
+ StatmentHtml string 
+}
+}
+}
+}
+namespace api {
+namespace handler {
+namespace auth_handler_test_go {
+class AuthServiceStub {
+ token string
+}
+}
+}
+}
+namespace service {
+namespace auth {
+namespace service_go {
+class Service {
+ us UserService
+ jwt JwtService
+ pwd PasswordVerifyer
+}
+}
+}
+}
+namespace service {
+namespace user {
+namespace service_go {
+class Service {
+ Repository
+ passwordHasher PasswordHasher
+}
+}
+}
+}
+namespace service {
+namespace user {
+namespace inmem_go {
+class inmem {
+ m map[entity.ID]entity.User
+}
+}
+}
+}
+namespace service {
+namespace judgemanager {
+namespace judge_manager_go {
+class manager {
+ Secrets map[int]string
+ SubmissionRepository SubmissionRepository
+ ProblemRepository ProblemRepository
+ judges []*handler
+ judgesMu sync.Mutex
+ srv judgeconnection.Server
+}
+}
+}
+}
+namespace service {
+namespace judgemanager {
+namespace handler_go {
+class handler {
+ jm *manager
+ id int
+ conn judgeconnection.Conn
+ judgingSubmission int64
+ notify chan struct()
+}
+}
+}
+}
+namespace service {
+namespace submission {
+namespace service_go {
+class Service {
+ Repository
+ jm Notifyer
+ problemService ProblemService
+ contestService ContestService
+}
+}
+}
+}
+namespace service {
+namespace jwt {
+namespace jwt_go {
+class jwtService {
+ secret []byte
+ tokenExpiration time.Duration
+ parser *jwt.Parser
+}
+}
+}
+}
+namespace service {
+namespace jwt {
+namespace jwt_go {
+class claims {
+ jwt.StandardClaims
+ entity.UserClaims
+}
+}
+}
+}
+namespace service {
+namespace contest {
+namespace service_go {
+class Service {
+ Repository
+}
+}
+}
+}
+namespace service {
+namespace problem {
+namespace problem_archive_go {
+class problemArchive {
+ FS fs.FS
+ Problem *Problem
+}
+}
+}
+}
+namespace service {
+namespace problem {
+namespace service_go {
+class Service {
+ Repository
+}
+}
+}
+}
+namespace service {
+namespace problem {
+namespace problem_go {
+class Problem {
+ XMLName xml.Name 
+ Revision int 
+ ShortName string 
+ Url string 
+ Names []ProblemName 
+ Statements []ProblemStatement 
+ Testset ProblemTestset 
+}
+}
+}
+}
+namespace service {
+namespace problem {
+namespace problem_go {
+class ProblemName {
+ Value string 
+ Lang string 
+}
+}
+}
+}
+namespace service {
+namespace problem {
+namespace problem_go {
+class ProblemStatement {
+ Charset string 
+ Language string 
+ Mathjax bool 
+ Path string 
+ Type string 
+}
+}
+}
+}
+namespace service {
+namespace problem {
+namespace problem_go {
+class ProblemTestset {
+ Name string 
+ TimeLimit int 
+ MemoryLimit int 
+ TestCount int 
+ InputPathPattern string 
+ AnswerPathPattern string 
+ Tests []ProblemTest 
+}
+}
+}
+}
+namespace service {
+namespace problem {
+namespace problem_go {
+class ProblemTest {
+ Method string 
+ Points string 
+ Sample string 
+}
+}
+}
+}
+namespace repository {
+namespace postgresql {
+namespace _testRepository_go {
+class testRepository {
+ db *sql.DB
+ ctx context.Context
+}
+}
+}
+}
+namespace repository {
+namespace postgresql {
+namespace list_options_sql_go {
+class sqlListOptions {
+ o entity.ListOptions
+ allowedFields []string
+ sb strings.Builder
+ filterVars []interface()
+}
+}
+}
+}
+namespace repository {
+namespace postgresql {
+namespace store_go {
+class Store {
+ db *sqlx.DB
+}
+}
+}
+}
+namespace config {
+namespace config_go {
+class Config {
+ Address string 
+ BaseURL string 
+ Title string 
+ requests should be redirected
+ FrontEndProxy string 
+ FrontEndDir string 
+ JWT _JWT
+ } class JWT {
+ Secret string 
+ Expiration int 
+}
+}
+ } 
+namespace judge {
+namespace judge_go {
+class Judge {
+ connection judgeconnection.Conn
+ testDirectory string
+ judgeId int
+}
+}
+}
+namespace judge {
+namespace test_go {
+class test {
+ index int
+ inFileName string
+ outFileName string
+ ansFileName string
+ runReportFName string
+ checkReprotFName string
+ t problem.ProblemTestset
+ time float64
+ wallTime float64
+ memoryUsed int
+ exitcode int
+ err error
+}
+}
+}
+namespace judge {
+namespace error_go {
+class judgeError {
+ status ErrorStatus
+ internalErr error
+}
+}
+}
+namespace judge {
+namespace error_go {
+class failedTestError {
+ testIndex int
+ innerError error
+ status ErrorStatus
+}
+}
+}
+namespace judge {
+namespace submission_go {
+class SubmissionParams {
+ JudgeId int
+ Src []byte
+ ProblemID int64
+ RevisionID int64
+ Language string
+ ProblemDir string
+ TempDir string
+ ShortCircuit bool
+}
+}
+}
+namespace judge {
+namespace submission_go {
+class submission {
+ SubmissionParams
+ solutionTempDir string
+ solutionSrcName string
+ solutionBinName string
+ isolatedDir string
+ boxBinFileName string
+ tests []test
+ err error
+}
+}
+}
+namespace entity {
+namespace user_test_go {
+class args {
+ username string
+ passwordHash string
+ firstName string
+ lastName string
+}
+}
+ }
+namespace entity {
+namespace list_options_go {
+class SortParam {
+ Field string
+ Asc bool
+}
+}
+}
+namespace entity {
+namespace list_options_go {
+class RangeParam {
+ From int
+ To int
+}
+}
+}
+namespace entity {
+namespace list_options_go {
+class FilterParam {
+ Field string
+ FilterValues []interface()
+}
+}
+}
+namespace entity {
+namespace list_options_go {
+class ListOptions {
+ Sort SortParam
+ Range RangeParam
+ Filter []FilterParam
+}
+}
+}
+namespace entity {
+namespace user_go {
+class User {
+ Entity
+ Username string
+ FirstName string
+ LastName string
+ PasswordHash string
+ Admin bool
+}
+}
+}
+namespace entity {
+namespace contest_go {
+class Contest {
+ Entity
+ ProblemID int64
+ AuthorID int64
+ ContestName string
+ StartTime time.Time
+ EndTime time.Time
+ Problems []int64
+ Users []int64
+}
+}
+}
+namespace entity {
+namespace user_claims_go {
+class UserClaims {
+ Username string 
+ Admin bool 
+ UserID int64 
+}
+}
+}
+namespace entity {
+namespace problem_go {
+class Problem {
+ Entity
+ AuthorID int64
+ ExternalURL string
+ Name string
+ Revisions []ProblemRevision
+}
+}
+}
+namespace entity {
+namespace problem_go {
+class ProblemRevision {
+ Entity
+ AuthorID int64
+ ProblemID int64
+ Revision int
+ Title string
+ MemoryLimit int
+ TimeLimit int
+ StatementHtml string
+ StatementPdf []byte
+ PackageArchive []byte
+ Outdated bool
+}
+}
+}
+namespace entity {
+namespace errors_go {
+class errorWrapper {
+ message string
+ innerErr error
+}
+}
+}
+namespace entity {
+namespace errors_go {
+class ErrValidation {
+ fieldName string
+ rule string
+ object interface()
+}
+}
+}
+namespace entity {
+namespace submission_go {
+class Submission {
+ Entity
+ ProblemID int64
+ ProblemRevID int64
+ ContestID int64
+ AuthorID int64
+ Language string
+ SourceCode string
+ Status SubmissionStatus 
+ Result string 
+ Details string
+}
+}
+}
+namespace entity {
+namespace entity_go {
+class Entity {
+ ID ID
+ CreatedAt time.Time
+ UpdatedAt time.Time
+}
+}
+}
+namespace cmd {
+namespace server {
+namespace file_server_go {
+class fileSystem {
+ fs http.FileSystem
+}
+}
+}
+}
+namespace cmd {
+namespace server {
+namespace api_go {
+class server {
+ router chi.Router
+ logger *log.Logger
+}
+}
+}
+}
+namespace judgeconnection {
+namespace connection_go {
+class conn {
+ tcpConn *net.TCPConn
+ readBuf chan Message
+ writeBuf chan Message
+ close chan struct()
+ Timeout time.Duration
+}
+}
+}
+namespace judgeconnection {
+namespace server_go {
+class Server {
+ jm JudgeManager
+ portAddress string
+ ln net.Listener
+}
+}
+}
+namespace judgeconnection {
+namespace client_go {
+class Client {
+ Conn
+ judgeID int
+ secret string
+}
+}
+}
+namespace judgeconnection {
+namespace messages_go {
+class DTO {
+ AuthRequest *AuthRequest
+ AuthResponse *AuthResponse
+ SubmitRequest *SubmitRequest
+ SubmitAck *SubmitAck
+ ProblemPackageRequest *ProblemPackageRequest
+ ProblemPackageResponse *ProblemPackageResponse
+ JudgeResult *JudgeResult
+}
+}
+}
+namespace judgeconnection {
+namespace messages_go {
+class AuthRequest {
+ JudgeID int
+ Secret string
+}
+}
+}
+namespace judgeconnection {
+namespace messages_go {
+class AuthResponse {
+ OK bool
+}
+}
+}
+namespace judgeconnection {
+namespace messages_go {
+class SubmitRequest {
+ ProblemID int64
+ RevisionID int64
+ SubmissionID int64
+ Src []byte
+}
+}
+}
+namespace judgeconnection {
+namespace messages_go {
+class SubmitAck {
+ OK bool
+}
+}
+}
+namespace judgeconnection {
+namespace messages_go {
+class ProblemPackageRequest {
+ ProblemID int64
+ RevisionID int64
+}
+}
+}
+namespace judgeconnection {
+namespace messages_go {
+class ProblemPackageResponse {
+ ProblemID int64
+ RevisionID int64
+ Package []byte
+}
+}
+}
+namespace judgeconnection {
+namespace messages_go {
+class JudgeResult {
+ ProblemID int
+ RevisionID int
+ SubmissionID int
+ Status string
+ Message string
+ Test []TestResult
+ Error string
+}
+}
+}
+namespace judgeconnection {
+namespace messages_go {
+class TestResult {
+ Index int
+ Status string
+ Message string
+}
+}
+}
+namespace api {
+namespace middleware {
+namespace auth_go {
+interface ParseResponser {
+ ParseQuery(r *http.Request) entity.ListOptions
+ ParseJSON(r *http.Request, v interface()) error
+ ResponseJSON(w http.ResponseWriter, r *http.Request, v interface())
+ SetTotalCount(w http.ResponseWriter, r *http.Request, total int)
+}
+}
+}
+}
+namespace api {
+namespace middleware {
+namespace auth_go {
+interface AuthService {
+ Validate(token string) (entity.UserClaims, error)
+}
+}
+}
+}
+namespace api {
+namespace payload {
+namespace response_go {
+interface HttpStatuser {
+ HttpStatus() int
+}
+}
+}
+}
+namespace api {
+namespace payload {
+namespace handler_go {
+interface ParseResponser {
+ ParseQuery(r *http.Request) entity.ListOptions
+ ParseJSON(r *http.Request, v interface()) error
+ ResponseJSON(w http.ResponseWriter, r *http.Request, v interface())
+ SetTotalCount(w http.ResponseWriter, r *http.Request, total int)
+}
+}
+}
+}
+namespace api {
+namespace handler {
+namespace auth_handler_go {
+interface AuthService {
+ LogIn(ctx context.Context, username, password string) (entity.Token, error)
+}
+}
+}
+}
+namespace api {
+namespace handler {
+namespace parse_responser_go {
+interface ParseResponser {
+ ParseQuery(r *http.Request) entity.ListOptions
+ ParseJSON(r *http.Request, v interface()) error
+ ResponseJSON(w http.ResponseWriter, r *http.Request, v interface())
+ SetTotalCount(w http.ResponseWriter, r *http.Request, total int)
+}
+}
+}
+}
+namespace api {
+namespace handler {
+namespace user_handler_go {
+interface UserService {
+ ListAll(ctx context.Context, options entity.ListOptions) ([]entity.User, int, error)
+ GetByID(ctx context.Context, id entity.ID) (entity.User, error)
+ Create(ctx context.Context, username, firstName, lastName, password string, isAdmin bool) (entity.User, error)
+ Update(ctx context.Context, id entity.ID, username, firstName, lastName, password string, isAdmin bool) (entity.User, error)
+ Delete(ctx context.Context, id entity.ID) error
+}
+}
+}
+}
+namespace api {
+namespace handler {
+namespace contest_handler_go {
+interface ContestService {
+ Create(ctx context.Context, contest *entity.Contest) error
+ GetByID(ctx context.Context, id entity.ID) (entity.Contest, error)
+ ListAll(ctx context.Context, options entity.ListOptions) ([]entity.Contest, int, error)
+ Update(ctx context.Context, contest *entity.Contest) error
+ Delete(ctx context.Context, id entity.ID) error
+}
+}
+}
+}
+namespace api {
+namespace handler {
+namespace submission_handler_go {
+interface SubmissionService {
+ Create(ctx context.Context, contest *entity.Submission) error
+ GetByID(ctx context.Context, id entity.ID, userID entity.ID) (entity.Submission, error)
+ ListAll(ctx context.Context, options entity.ListOptions) ([]entity.Submission, int, error)
+}
+}
+}
+}
+namespace api {
+namespace handler {
+namespace problem_handler_go {
+interface ProblemService {
+ ListAll(ctx context.Context, options entity.ListOptions) ([]entity.Problem, int, error)
+ GetByID(ctx context.Context, id entity.ID) (entity.Problem, error)
+ Create(ctx context.Context, archive []byte) (entity.Problem, error)
+ Update(ctx context.Context, problemID entity.ID, archive []byte) (entity.Problem, error)
+ StatmentHtmlByProblemId(ctx context.Context, problemID entity.ID) (string, error)
+}
+}
+}
+}
+namespace service {
+namespace interfaces_go {
+interface UserService {
+ GetUserByUsername(username string) (entity.User, error)
+}
+}
+}
+namespace service {
+namespace auth {
+namespace service_go {
+interface UserService {
+ GetByUsername(ctx context.Context, username string) (entity.User, error)
+}
+}
+}
+}
+namespace service {
+namespace auth {
+namespace service_go {
+interface JwtService {
+ Encode(userClaims entity.UserClaims) (string, error)
+ Verify(tokenString string) (entity.UserClaims, error)
+}
+}
+}
+}
+namespace service {
+namespace auth {
+namespace service_go {
+interface PasswordVerifyer {
+ VerifyPassword(password, paswordHash string) bool
+}
+}
+}
+}
+namespace service {
+namespace user {
+namespace service_go {
+interface Repository {
+ GetByUsername(ctx context.Context, username string) (entity.User, error)
+ ListAll(ctx context.Context, options entity.ListOptions) ([]entity.User, int, error)
+ GetByID(ctx context.Context, id entity.ID) (entity.User, error)
+ Create(ctx context.Context, e *entity.User) error
+ Update(ctx context.Context, e *entity.User) error
+ Delete(ctx context.Context, id entity.ID) error
+}
+}
+}
+}
+namespace service {
+namespace user {
+namespace service_go {
+interface PasswordHasher {
+ HashPassword(password string) (string, error)
+}
+}
+}
+}
+namespace service {
+namespace judgemanager {
+namespace judge_manager_go {
+interface SubmissionRepository {
+ GetPendingSubmission(ctx context.Context) (entity.Submission, error)
+ UpdateSubmission(ctx context.Context, s *entity.Submission) error
+}
+}
+}
+}
+namespace service {
+namespace judgemanager {
+namespace judge_manager_go {
+interface ProblemRepository {
+ PackageArchiveByRevisionId(ctx context.Context, revisionID entity.ID) ([]byte, error)
+}
+}
+}
+}
+namespace service {
+namespace judgemanager {
+namespace judge_manager_go {
+interface Manager {
+ Notify()
+ RunJudge(c judgeconnection.Conn) error
+}
+}
+}
+}
+namespace service {
+namespace password {
+namespace password_go {
+interface PasswordService {
+ HashPassword(password string) (string, error)
+ VerifyPassword(password, hash string) bool
+}
+}
+}
+}
+namespace service {
+namespace submission {
+namespace service_go {
+interface Repository {
+ Create(ctx context.Context, submission *entity.Submission) error
+ GetByID(ctx context.Context, id entity.ID, userID entity.ID) (entity.Submission, error)
+ ListAll(ctx context.Context, options entity.ListOptions) ([]entity.Submission, int, error)
+ ListAllForUsers(ctx context.Context, options entity.ListOptions, userid entity.ID) ([]entity.Submission, int, error)
+ UpdateSubmission(ctx context.Context, submission *entity.Submission) error
+ GetPendingSubmission(ctx context.Context) (entity.Submission, error)
+}
+}
+}
+}
+namespace service {
+namespace submission {
+namespace service_go {
+interface ProblemService {
+ GetByID(ctx context.Context, id entity.ID) (entity.Problem, error)
+}
+}
+}
+}
+namespace service {
+namespace submission {
+namespace service_go {
+interface ContestService {
+ GetByID(ctx context.Context, id entity.ID) (entity.Contest, error)
+}
+}
+}
+}
+namespace service {
+namespace submission {
+namespace service_go {
+interface Notifyer {
+ Notify()
+}
+}
+}
+}
+namespace service {
+namespace contest {
+namespace service_go {
+interface Repository {
+ Create(ctx context.Context, contest *entity.Contest) error
+ GetByID(ctx context.Context, id entity.ID, userID entity.ID) (entity.Contest, error)
+ ListAll(ctx context.Context, options entity.ListOptions) ([]entity.Contest, int, error)
+ ListAllForUsers(ctx context.Context, options entity.ListOptions, userid entity.ID) ([]entity.Contest, int, error)
+ Update(ctx context.Context, contest *entity.Contest) error
+ Delete(ctx context.Context, id entity.ID) error
+}
+}
+}
+}
+namespace service {
+namespace problem {
+namespace service_go {
+interface Repository {
+ ListAll(ctx context.Context, options entity.ListOptions, userID entity.ID) ([]entity.Problem, int, error)
+ GetByID(ctx context.Context, id, userID entity.ID) (entity.Problem, error)
+ Create(ctx context.Context, e *entity.Problem) error
+ AddRevision(ctx context.Context, newRevision *entity.ProblemRevision) error
+ StatmentHtmlByProblemId(ctx context.Context, problemID entity.ID) (string, error)
+}
+}
+}
+}
+namespace judgeconnection {
+namespace connection_go {
+interface Conn {
+ Read() Message
+ Write(m Message)
+ Close()
+ Closed() <-chan struct()
+}
+}
+}
+namespace judgeconnection {
+namespace server_go {
+interface JudgeManager {
+ RunJudge(conn Conn) error
+}
+}
+}
+namespace judgeconnection {
+namespace messages_go {
+interface Message {
+ isMessage()
+}
+}
+}
+@enduml
